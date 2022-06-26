@@ -1,4 +1,5 @@
 from math import log2, ceil
+import time
 
 
 class Heys:
@@ -34,9 +35,13 @@ class Heys:
 
 
     def permute(self, block: int):
-        for i in range(self.__block_size):
-            for j in range(self.__block_size):
-                pass
+        result = 0
+        for i in range(4):
+            for j in range(4):
+                # result |= ((((block >> (i * 4) & 0xF) >> j) & 1) << (j * 4)) << i 
+                result |= (block >> (i * 4 + j) & 1) << (j * 4 + i) 
+        return result
+                
 
 
     def get_bit(self, number: int, index: int):
@@ -73,3 +78,12 @@ if __name__ == '__main__':
 
     united = c.unite_block(splitted)
     print(hex(united))
+
+    b = 0b0111101000011101
+    print(bin(c.permute(b)))
+    print(bin(0b0101100111001011))
+
+    start = time.time()
+    for i in range(1000000):
+        k = c.permute(b)
+    print((time.time() - start))
