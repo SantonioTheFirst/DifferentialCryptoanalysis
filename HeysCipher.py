@@ -13,14 +13,19 @@ class Heys:
         self.__S_inv = [0x9, 0xE, 0xC, 0xA, 0x7, 0x2, 0x1, 0xB, 0x3, 0xD, 0x6, 0x5, 0x8, 0xF, 0x4, 0x0]
 
 
-    def encrypt(self, text: int):
-        pass
+    def encrypt(self, block: int):
+        keys = self.get_round_keys()
+        for i in range(self.__rounds - 1):
+            output = self.round(output, keys[i])
+        return keys[-1] ^ output
 
 
     def round(self, block: int, round_key: int):
         y = block ^ round_key
         # splitted = self.split_block(y)
         y_s = self.substitute(y)
+        y_p = self.permute(y_s)
+        return y_p
 
 
     def split_block(self, block: int):
