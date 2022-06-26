@@ -6,7 +6,9 @@ class Heys:
         self.__key = key
         self.__block_size = 16
         self.__rounds = 7
-        self.__S = [0xF, 0x6, 0x5, 0x8, 0xE, 0xB, 0xA, 0x4, 0xC, 0x0, 0x3, 0x7, 0x2, 0x9, 0x1, 0xD]
+        #                0     1    2    3    4    5    6    7    8    9    A    B    C    D    E    F  
+        self.__S =     [0xF, 0x6, 0x5, 0x8, 0xE, 0xB, 0xA, 0x4, 0xC, 0x0, 0x3, 0x7, 0x2, 0x9, 0x1, 0xD]
+        self.__S_inv = [0x9, 0xE, 0xC, 0xA, 0x7, 0x2, 0x1, 0xB, 0x3, 0xD, 0x6, 0x5, 0x8, 0xF, 0x4, 0x0]
 
 
     def encrypt(self, text: int):
@@ -20,11 +22,14 @@ class Heys:
 
 
     def split_block(self, block: int):
-        pass
+        return [(block >> i) & 0xF for i in range(0, 16, 4)]
 
 
     def unite_block(self, splitted_block: int):
-        pass
+        result = 0
+        for i, quart in enumerate(splitted_block):
+            result |= quart << (4 * i)
+        return result
 
 
     def permute(self, block: int):
@@ -52,3 +57,18 @@ class Heys:
 
     def pad(self, text: int):
         pass
+
+
+if __name__ == '__main__':
+    c = Heys(2)
+
+    a = 915
+    print(hex(a))
+    print(bin(a))
+
+    splitted = c.split_block(a)
+
+    print([bin(i) for i in splitted])
+
+    united = c.unite_block(splitted)
+    print(hex(united))
