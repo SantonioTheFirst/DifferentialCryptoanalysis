@@ -4,6 +4,7 @@ from math import log2, ceil
 class Heys:
     def __init__(self, key: int) -> None:
         self.__key = key
+        assert self.__key > 0 and self.__key < 2**112, 'Incorrect key'
         self.__block_size = 16
         self.__rounds = 7
         #                0     1    2    3    4    5    6    7    8    9    A    B    C    D    E    F  
@@ -48,7 +49,7 @@ class Heys:
 
 
     def get_round_keys(self):
-        pass
+        return [(self.__key >> i) & 0xF for i in range(0, 112, 16)]
 
 
     def get_text_blocks(self, text: int):
