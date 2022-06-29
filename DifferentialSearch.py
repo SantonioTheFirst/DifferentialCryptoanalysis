@@ -3,7 +3,7 @@ from random import randrange
 from collections import Counter
 
 
-def bruteforceDifference(difference):
+def bruteforceDifference(difference: int) -> Counter:
     betas = []
     cipher = Heys(key=0x0)
     for text in range(2**16):
@@ -15,7 +15,7 @@ def bruteforceDifference(difference):
     return counter
 
 
-def diffSearch(alpha, P, r = 6):
+def diffSearch(alpha: int, P: list[float], r: int = 6) -> None:
     L = [[]] * r
     L[0] = [tuple([alpha, 1.0])]
     for t in range(1,r):
