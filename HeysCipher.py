@@ -22,17 +22,19 @@ class Heys:
 
     def round(self, block: int, round_key: int) -> int:
         y = block ^ round_key
-        # splitted = self.split_block(y)
         y_s = self.substitute(y)
         y_p = self.permute(y_s)
         return y_p
 
 
     def round_(self, block: int, round_key: int) -> int:
-        y_p = self.permute(block)
+        y_k = block ^ round_key
+        # print(y_k)
+        y_p = self.permute(y_k)
+        # print(f'Perm: {hex(y_p)}')
         y_s = self.substitute_(y_p)
-        y = y_s ^ round_key
-        return y
+        # print(hex(y_s))
+        return y_s
 
 
     def split_block(self, block: int) -> list[int]:
@@ -82,28 +84,5 @@ class Heys:
 
 
 if __name__ == '__main__':
-    c = Heys(2)
-
-    a = 915
-    print(hex(a))
-    print(bin(a))
-
-    splitted = c.split_block(a)
-
-    print([bin(i) for i in splitted])
-
-    united = c.unite_block(splitted)
-    print(hex(united))
-
-    b = 0b0111101000011101
-    print(bin(c.permute(b)))
-    print(bin(0b0101100111001011))
-
-    # start = time.time()
-    # for i in range(1000000):
-    #     k = c.permute(b)
-    # print((time.time() - start))
-
-    ct = c.round(a, 115)
-    print(ct)
-    print(c.round_(ct, 115))
+    c = Heys(0)
+    print(hex(c.permute(0x191)))

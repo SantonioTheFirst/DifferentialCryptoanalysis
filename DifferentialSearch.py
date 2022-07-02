@@ -22,14 +22,8 @@ def diffSearch(alpha: int, P: list[float], r: int = 6) -> None:
         print(t)
         for (beta, p) in L[t - 1]:
             gammas = sorted([tuple([x[0], x[1] / 2**16]) for x in bruteforceDifference(beta).items()], key=lambda x: x[1], reverse=True)
-            # print(gammas)
             for (gamma, q) in gammas:
                 L_t = L[t].copy()
-                # print(L)
-                # print(L_t)
-                # exit()
-                # print([tuple(l[0]) for l in L_t])
-                # exit()
                 if gamma in [l[0] for l in L_t]:
                     pg = list(filter(lambda x : x[0] == gamma , L_t))[0][1]
                     L_t.remove((gamma, pg))
@@ -40,8 +34,6 @@ def diffSearch(alpha: int, P: list[float], r: int = 6) -> None:
         # print(L)
         # exit()
         print(f'L[{t}] prob: {sum([x[1] for x in L[t]])}')
-        # for l in sorted(L[t],key= lambda x: -x[1])[0:25]:
-        #     print(l)
         print(f'L[{t}] len before: {len(L[t])}')
         L_t = L[t].copy()
         for (gamma, p) in L[t]:
@@ -69,6 +61,7 @@ if __name__ == '__main__':
 
     alpha = 1
     #       1    2       3       4       5         6
-    P = [1, 0.1, 0.008, 0.0005, 0.0001, 0.00005, 3.8e-06]
+    #P = [1, 0.1, 0.008, 0.0005, 0.0001, 0.00005, 3.8e-06]
+    P = [1, 0.1, 0.0075, 0.001, 0.0002, 0.0001, 3.8e-06]
 
     diffSearch(alpha, P, 6)
